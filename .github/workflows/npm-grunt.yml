@@ -3,7 +3,7 @@ name: Deploy Node.js App to Naver Cloud
 on:
   push:
     branches:
-      - master  # master 브랜치에 푸시될 때 실행1
+      - master  # master 브랜치에 푸시될 때 실행
 
 jobs:
   deploy:
@@ -25,7 +25,18 @@ jobs:
           sudo yum install -y curl gcc gcc-c++ make
           curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
           sudo yum install -y nodejs
-          cd /root/node_project   # 실제 프로젝트 디렉토리로 변경
-          git pull origin master
-          node ./http_server.js   # nodejs 대신 node 사용
+          
+          # 프로젝트 디렉토리 생성 및 이동
+          mkdir -p /root/node_project
+          cd /root/node_project
+          
+          # Git 리포지토리 클론 또는 업데이트
+          if [ ! -d ".git" ]; then
+            git clone https://github.com/Tekk-97/nodejs-helloworld.git .   # 리포지토리 클론
+          else
+            git pull origin master  # 최신 코드 가져오기
+          fi
+
+          # Node.js 서버 실행
+          node ./http_server.js  
         EOF
