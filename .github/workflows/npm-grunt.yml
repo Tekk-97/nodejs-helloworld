@@ -1,0 +1,31 @@
+name: Deploy Node.js App to Naver Cloud
+
+on:
+  push:
+    branches:
+      - main  # 메인 브랜치에 푸시될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SSH client and sshpass
+      run: sudo apt-get install -y openssh-client sshpass
+
+    - name: Access Naver Cloud Server and Deploy
+      env:
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      run: |
+        sshpass -p $SSH_PASSWORD ssh -p 2222 -o StrictHostKeyChecking=no root@223.130.157.233 << EOF
+          sudo apt update
+          sudo apt install -y curl software-properties-common gcc g++ make
+          curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+          sudo apt install -y nodejs
+          cd /path/to/your/directory
+          git pull origin main
+          nodejs ./http_server.js
+        EOF
