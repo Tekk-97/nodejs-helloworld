@@ -21,11 +21,11 @@ jobs:
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       run: |
         sshpass -p $SSH_PASSWORD ssh -p 2222 -o StrictHostKeyChecking=no root@223.130.157.233 << EOF
-          sudo yum update
-          sudo yum install -y curl software-properties-common gcc g++ make
-          curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+          sudo yum update -y
+          sudo yum install -y curl gcc gcc-c++ make
+          curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
           sudo yum install -y nodejs
-          cd /path/to/your/directory
+          cd /root/node_project   # 실제 프로젝트 디렉토리로 변경
           git pull origin main
-          nodejs ./http_server.js
+          node ./http_server.js   # nodejs 대신 node 사용
         EOF
