@@ -21,10 +21,10 @@ jobs:
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       run: |
         sshpass -p $SSH_PASSWORD ssh -p 2222 -o StrictHostKeyChecking=no root@223.130.157.233 << EOF
-          sudo apt update
-          sudo apt install -y curl software-properties-common gcc g++ make
+          sudo yum update
+          sudo yum install -y curl software-properties-common gcc g++ make
           curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-          sudo apt install -y nodejs
+          sudo yum install -y nodejs
           cd /path/to/your/directory
           git pull origin main
           nodejs ./http_server.js
