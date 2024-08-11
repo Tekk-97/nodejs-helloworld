@@ -21,10 +21,15 @@ jobs:
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       run: |
         sshpass -p $SSH_PASSWORD ssh -p 2222 -o StrictHostKeyChecking=no root@223.130.157.233 << EOF
-          sudo yum update -y
+          sudo yum update -y --exclude=kernel*  # 기본 시스템 업데이트, 커널 제외
           sudo yum install -y curl gcc gcc-c++ make
+          
+          # Node.js 12.x 버전 설치
           curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
           sudo yum install -y nodejs
+          
+          # 기존 Node.js 프로세스 종료
+          pkill -f node || true  # 기존의 모든 Node.js 프로세스 종료, 프로세스가 없을 경우 오류 무시
           
           # 프로젝트 디렉토리 생성 및 이동
           mkdir -p /root/node_project
@@ -38,5 +43,5 @@ jobs:
           fi
 
           # Node.js 서버 실행
-          node ./http_server.js  
+          nohup node ./http_server.js > server.log 2>&1 &
         EOF
