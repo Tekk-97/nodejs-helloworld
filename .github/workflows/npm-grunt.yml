@@ -24,8 +24,8 @@ jobs:
           sudo yum update -y --exclude=kernel*  # 기본 시스템 업데이트, 커널 제외
           sudo yum install -y curl gcc gcc-c++ make
           
-          # Node.js 12.x 버전 설치
-          curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
+          # Node.js 18.x 버전 설치 (LTS 버전)
+          curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
           sudo yum install -y nodejs
           
           # 기존 Node.js 프로세스 종료
