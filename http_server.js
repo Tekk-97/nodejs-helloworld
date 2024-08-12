@@ -3,4 +3,4 @@ http.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end('Hello World\n');
 }).listen(3000, "0.0.0.0");
-console.log('Server running at yout public IP:3000');
+console.log('Server running at your public IP:3000');
